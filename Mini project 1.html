@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RK Bazar</title>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f8f8f8;
+        margin: 0;
+    }
+
+    h1 {
+        background: #0c831f;
+        color: white;
+        padding: 15px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .product {
+        background: white;
+        width: 160px;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: left;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .product h3 {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+
+    .product p {
+        margin: 5px 0;
+    }
+
+    button {
+        width: 100%;
+        background: #0c831f;
+        color: white;
+        border: none;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #096d19;
+    }
+
+    #cart {
+        background: white;
+        margin: 15px;
+        padding: 15px;
+        border-radius: 10px;
+    }
+</style>
+
+</head>
+
+<body>
+
+<h1>RK Bazar 🛒</h1>
+
+<!-- PRODUCTS -->
+
+<div class="product">
+    <h3>Milk</h3>
+    <p>₹50</p>
+    <button onclick="addToCart('Milk', 50)">Add to Cart</button>
+</div>
+
+<div class="product">
+    <h3>Bread</h3>
+    <p>₹30</p>
+    <button onclick="addToCart('Bread', 30)">Add to Cart</button>
+</div>
+
+<div class="product">
+    <h3>Eggs</h3>
+    <p>₹60</p>
+    <button onclick="addToCart('Eggs', 60)">Add to Cart</button>
+</div>
+
+<div class="product">
+    <h3>Rice</h3>
+    <p>₹80</p>
+    <button onclick="addToCart('Rice', 80)">Add to Cart</button>
+</div>
+
+<div class="product">
+    <h3>Oil</h3>
+    <p>₹120</p>
+    <button onclick="addToCart('Oil', 120)">Add to Cart</button>
+</div>
+
+<!-- CART -->
+
+<div id="cart">
+    <h2>Your Cart 🧾</h2>
+    <ul id="cartItems"></ul>
+    <h3>Total: ₹<span id="total">0</span></h3>
+
+    <button onclick="orderNow()">Order on WhatsApp</button>
+</div>
+
+<script>
+    let cart = {};
+    let total = 0;
+
+    function addToCart(item, price) {
+        if (cart[item]) {
+            cart[item].qty += 1;
+        } else {
+            cart[item] = { price: price, qty: 1 };
+        }
+
+        updateCart();
+    }
+
+    function updateCart() {
+        let cartList = document.getElementById("cartItems");
+        cartList.innerHTML = "";
+        total = 0;
+
+        for (let item in cart) {
+            let li = document.createElement("li");
+            let itemTotal = cart[item].price * cart[item].qty;
+
+            li.innerText = item + " x" + cart[item].qty + " = ₹" + itemTotal;
+            cartList.appendChild(li);
+
+            total += itemTotal;
+        }
+
+        document.getElementById("total").innerText = total;
+    }
+
+    function orderNow() {
+        let message = "Order:%0A";
+
+        for (let item in cart) {
+            message += item + " x" + cart[item].qty + "%0A";
+        }
+
+        message += "Total: ₹" + total;
+
+        let phone = "919876543210";
+
+        window.open("https://wa.me/" + phone + "?text=" + message, "_blank");
+    }
+</script>
+
+</body>
+</html>
